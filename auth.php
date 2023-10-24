@@ -16,6 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $sql = "INSERT INTO user_info (username, email, password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $username, $email, $password);
+        error_log(print_r($row,true));
 
         if($stmt->execute())
         {
