@@ -1,6 +1,9 @@
 <?php
-
-$conn = new mysqli("127.0.0.1", "elijahowens5", 'XiThetaSo1oAce', 'user_info');
+$hostname = "localhost"; // Hostname
+$username = "eco9"; // MySQL username
+$password = "IT490Rocks!"; // MySQL password
+$database = "users"; // Database name
+$conn = new mysqli($hostname, $username, $password, $database);
 
 if($conn->connect_error)
 {
