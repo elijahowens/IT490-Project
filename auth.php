@@ -1,5 +1,5 @@
 <?php
-$hostname = "localhost"; // Hostname
+$hostname = "127.0.0.1"; // Hostname
 $username = "eco9"; // MySQL username
 $password = "IT490Rocks!"; // MySQL password
 $database = "users"; // Database name
