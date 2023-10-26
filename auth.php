@@ -17,6 +17,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
         $sql = "INSERT INTO user_info (username, email, password) VALUES (?, ?, ?)";
+        // Print the SQL query for debugging
+        echo "SQL Query: " . $sql . "<br>";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $username, $email, $password);
 
