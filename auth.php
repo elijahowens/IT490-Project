@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+
 $hostname = "localhost"; // Hostname
 $db_username = "eco9"; // MySQL username
 $db_password = "IT490Rocks!"; // MySQL password
