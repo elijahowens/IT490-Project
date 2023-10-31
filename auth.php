@@ -13,6 +13,9 @@ $conn = new mysqli($hostname, $db_username, $db_password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+else {
+    echo "Connected ";
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_input_username = $_POST["username"];
