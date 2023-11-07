@@ -5,21 +5,32 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'dbconnect.php';
-include 'RabbitMQFunctions.php'
+include 'RabbitMQFunctions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_input_username = $_POST["username"];
-    $user_input_email = $_POST["email"];
-    $user_input_password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+    $user_input_password = $_POST["password"];
 
-    $sql = "INSERT INTO user_info (username, email, password) VALUES (?, ?, ?)";
-    
-    // Use prepared statements to prevent SQL injection
+    $sql = "SELECT username, password FROM user_info WHERE username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $user_input_username, $user_input_email, $user_input_password);
+    $stmt->bind_param("s", $user_input_username);
 
     if ($stmt->execute()) {
-        echo "Registration successful!";
+        $stmt->bind_result($db_username, $db_password);
+
+        if ($stmt->fetch()) {
+            // Verify the password hash
+            if (password_verify($user_input_password, $db_password)) {
+                // Password matches; the user is authenticated
+                echo "Login successful!";
+            } else {
+                // Password does not match
+                echo "Incorrect password";
+            }
+        } else {
+            // Username not found in the database
+            echo "Username not found";
+        }
     } else {
         echo "Error: " . $conn->error;
     }
