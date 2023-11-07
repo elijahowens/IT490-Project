@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'dbconnect.php';
-include 'RabbitMQFunctions.php'
+include 'RabbitMQFunctions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_input_username = $_POST["username"];
