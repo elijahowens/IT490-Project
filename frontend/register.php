@@ -1,5 +1,4 @@
 <?php
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,16 +11,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_input_email = $_POST["email"];
     $user_input_password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
-    $sql = "INSERT INTO user_info (username, email, password) VALUES (?, ?, ?)";
-    
-  $stmt = $pdo->prepare($sql);
+    try {
+        $pdo = new PDO("mysql:host=$hostname;dbname=$database", $db_username, $db_password);
 
-        // Bind values to named placeholders
+        $sql = "INSERT INTO user_info (username, email, password) VALUES (:username, :email, :password)";
+        $stmt = $pdo->prepare($sql);
+
         $stmt->bindParam(':username', $user_input_username);
         $stmt->bindParam(':email', $user_input_email);
         $stmt->bindParam(':password', $user_input_password);
 
-        // Execute the query
         if ($stmt->execute()) {
             echo "Registration successful!";
         } else {
@@ -32,9 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+    unset($pdo);
 }
-
-// Close the PDO connection (optional as it's automatically closed at the end of the script)
-unset($pdo);
-
 ?>
