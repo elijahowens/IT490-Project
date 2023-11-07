@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "SELECT username, password FROM user_info WHERE username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $user_input_username);
+    $stmt->bind_param("ss", $user_input_username, $user_input_password);
 
     if ($stmt->execute()) {
         $stmt->bind_result($db_username, $db_password);
