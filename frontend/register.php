@@ -14,18 +14,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "INSERT INTO user_info (username, email, password) VALUES (?, ?, ?)";
     
-    // Use prepared statements to prevent SQL injection
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $user_input_username, $user_input_email, $user_input_password);
+  $stmt = $pdo->prepare($sql);
 
-    if ($stmt->execute()) {
-        echo "Registration successful!";
-    } else {
-        echo "Error: " . $conn->error;
+        // Bind values to named placeholders
+        $stmt->bindParam(':username', $user_input_username);
+        $stmt->bindParam(':email', $user_input_email);
+        $stmt->bindParam(':password', $user_input_password);
+
+        // Execute the query
+        if ($stmt->execute()) {
+            echo "Registration successful!";
+        } else {
+            echo "Error: " . implode(" - ", $stmt->errorInfo());
+        }
+
+        $stmt->closeCursor();
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-
-    $stmt->close();
 }
 
-$conn->close();
+// Close the PDO connection (optional as it's automatically closed at the end of the script)
+unset($pdo);
+
 ?>
